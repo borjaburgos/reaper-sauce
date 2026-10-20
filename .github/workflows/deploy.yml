@@ -1,0 +1,86 @@
+name: Deploy Reaper Sauce
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Read Pages configuration
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Configure public URLs
+        env:
+          CONFIGURED_ORIGIN: ${{ vars.SITE_URL || steps.pages.outputs.origin }}
+          CONFIGURED_BASE: ${{ vars.BASE_PATH || steps.pages.outputs.base_path || '/' }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync } from 'node:fs';
+          const site = new URL(process.env.CONFIGURED_ORIGIN);
+          if (!['https:', 'http:'].includes(site.protocol) || site.username || site.password || site.search || site.hash || site.pathname !== '/') {
+            throw new Error('SITE_URL must be an HTTP(S) origin, for example https://name.github.io');
+          }
+          const rawBase = process.env.CONFIGURED_BASE;
+          if (!/^\/[A-Za-z0-9._~/-]*$/.test(rawBase) || rawBase.split('/').includes('..') || rawBase.split('/').includes('.')) {
+            throw new Error('BASE_PATH must be a URL path, for example /reaper-sauce/ or /');
+          }
+          const base = rawBase === '/' ? '/' : `/${rawBase.replace(/^\/+|\/+$/g, '')}/`;
+          appendFileSync(process.env.GITHUB_ENV, `SITE_URL=${site.origin}\nBASE_PATH=${base}\n`);
+          NODE
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Test recipe logic
+        run: npm test
+
+      - name: Build site
+        run: npm run build
+
+      - name: Verify production output and deployment paths
+        run: npm run test:build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="620" viewBox="0 0 650 620" role="img" aria-label="Original Reaper Sauce bottle with Carolina Reaper mascot, fresh mango and sliced lime"><title>Original Reaper Sauce bottle with Carolina Reaper mascot, fresh mango and sliced lime</title><defs><style>.ink{fill:#172022}.cream{fill:#FFF7E8}.red{fill:#E63323}.mango{fill:#FFB52E}.green{fill:#68A83E}.heavy{font-family:'Arial Black',Arial,sans-serif;font-weight:900}.body{font-family:Arial,sans-serif;font-weight:700}</style></defs><g stroke="#172022" stroke-linecap="round" stroke-linejoin="round">
+<!-- Screen-print flourishes around the bottle. -->
+<path d="m104 93 9 19m-34-3 19 8m425 47 17-10m-8 31 19 1m-60 361 13 14m-329-28-9 15" fill="none" stroke-width="4"/>
+<path d="m167 42.5 4.5 11.0 11.0 4.95 -11.0 4.95 -4.95 11.0 -4.95 -11.0 -11.0 -4.95 11.0 -4.95Z" fill="#FFB52E" stroke="#172022" stroke-width="2.5" stroke-linejoin="round"/><path d="m551 250.5 4.5 11.0 11.0 4.95 -11.0 4.95 -4.95 11.0 -4.95 -11.0 -11.0 -4.95 11.0 -4.95Z" fill="#FFB52E" stroke="#172022" stroke-width="2.5" stroke-linejoin="round"/><path d="m84 357.0 4.5 8.0 8.0 3.6 -8.0 3.6 -3.6 8.0 -3.6 -8.0 -8.0 -3.6 8.0 -3.6Z" fill="#FFB52E" stroke="#172022" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M501 84c-12 13-14 24-7 32 10 12 31 5 32-8 1-9-6-17-7-26-9 6-13 12-12 18-7-3-9-8-6-16Z" fill="#E63323" stroke-width="3"/>
+<!-- The mascot peeks out from beside the bottle. -->
+<g transform="translate(44 168) scale(0.73)" stroke="#172022" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- A wrinkled Carolina Reaper pepper with a curved green stem. -->
+    <path d="M112 235C81 242 66 252 57 266" fill="none"/>
+    <path d="M60 256c-15-9-28-3-29 8-1 7 5 13 12 15-9 5-8 16 2 19 15 4 28-11 30-22 1-8-6-15-15-20Z" fill="#FFF7E8"/>
+    <path d="M172 102c-7-19-6-40 5-57 8-13 20-20 33-23 8-2 13 6 8 12-19 21-21 45-9 69Z" fill="#68A83E"/>
+    <path d="M185 78c6-18 13-30 22-39" fill="none" stroke-width="3"/>
+    <path d="M174 97c-29-23-57-14-65 4-22-6-38 8-36 29-25 15-26 40-14 60-12 24-7 44 10 59-5 29 7 50 31 58 9 28 32 43 57 40 18 20 29 36 34 49 4-18 18-30 39-44 31-2 49-21 49-47 24-13 31-35 20-58 16-24 15-51-3-67 8-29-3-48-27-53-7-23-32-35-57-26-13-12-27-14-38-4Z" fill="#E63323"/>
+    <path d="M181 117c-17-12-40-12-53 4M85 139c-9 9-12 20-9 30M71 212c0 17 7 28 18 34M109 282c6 17 17 28 32 31M237 290c11-8 17-20 15-32M263 149c10 8 14 18 11 30M166 326c9 4 17 5 26 2M214 119l16 5" fill="none" stroke-width="4" opacity=".58"/>
+    <path d="M88 184c-5 6-6 14-2 23M118 256l8 10M222 321l-9 9M267 222l-5 10" fill="none" stroke-width="4" opacity=".58"/>
+    <!-- Oversized shades with tiny cream reflections. -->
+    <path d="m78 150 84 2 14 10 13-9 83 2-5 19c-3 22-14 34-35 34-20 0-34-13-37-32l-3-9h-12l-4 9c-4 22-19 31-40 29-23-2-34-14-37-34Z" fill="#172022" stroke-width="5"/>
+    <path d="m100 161 25 1-14 26h-8ZM211 165l25 1-14 27h-9Z" fill="#FFF7E8" stroke="none" opacity=".88"/>
+    <path d="M145 227c18 10 38 10 58-2-3 26-15 39-31 36-16-2-25-15-27-34Z" fill="#FFF7E8" stroke-width="5"/>
+    <path d="M151 239c14 6 29 5 44-2" fill="none" stroke-width="3"/>
+    <!-- Raised white glove, giving an enthusiastic thumbs up. -->
+    <path d="M280 255c15-3 25-13 32-28" fill="none" stroke-width="10"/>
+    <path d="m300 229 19 10 8-14-20-10Z" fill="#FFF7E8" stroke-width="4"/>
+    <path d="M309 218c-4-6-7-14-5-22l7-20c3-8 6-15 5-23-1-10 4-14 10-10 12 7 13 26 5 39l17 3c11 2 15 11 10 18 9 6 8 16 0 20 2 10-5 15-13 14l-14-1c-8 0-15-6-22-18Z" fill="#FFF7E8" stroke-width="5"/>
+    <path d="m333 193 16 3m-17 12 20 3m-22 10 17 3" fill="none" stroke-width="3"/>
+    </g>
+<!-- Tall glass sauce bottle, tilted for a little attitude. -->
+<g transform="rotate(7 354 310)">
+<path d="M303 69h96v99c0 21 10 38 23 53 14 16 22 35 22 60v229c0 26-17 40-43 40H299c-26 0-43-14-43-40V281c0-25 9-44 23-60 14-15 24-32 24-53Z" fill="#EE6B24" stroke-width="6"/>
+<path d="M313 91h75v79c0 27 9 46 24 63 13 15 18 30 18 50v224c0 19-10 29-30 29h-98c-19 0-31-11-31-29V283c0-21 6-36 19-51 14-16 23-36 23-61Z" fill="#E63323" stroke="none"/>
+<path d="M278 282v215c0 10 4 17 12 21M318 111v58c0 29-9 46-21 63" fill="none" stroke="#FFAD57" stroke-width="9"/>
+<path d="M313 81h76v86h-76Z" fill="#F37935" stroke="none"/>
+<!-- Ridged yellow bottle cap. -->
+<path d="M301 52c0-8 6-13 14-13h75c8 0 14 5 14 13v46H301Z" fill="#FFB52E" stroke-width="6"/>
+<path d="M305 86h95M316 52v23m14-23v23m14-23v23m14-23v23m14-23v23m14-23v23" fill="none" stroke-width="3"/>
+<!-- Large cream paper label. -->
+<path d="M265 272c58-8 114-8 170 0v219c-56 7-112 7-170 0Z" fill="#FFF7E8" stroke-width="4"/>
+<path d="M276 283c49-5 97-5 148 0m-148 196c49 5 97 5 148 0" fill="none" stroke="#E63323" stroke-width="2"/>
+<text x="350" y="312" text-anchor="middle" fill="#172022" stroke="none" class="heavy" font-size="30" letter-spacing="-1">REAPER</text>
+<text x="350" y="340" text-anchor="middle" fill="#172022" stroke="none" class="heavy" font-size="30" letter-spacing="2">SAUCE</text>
+<g transform="translate(292 335) scale(0.32)" stroke="#172022" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- A wrinkled Carolina Reaper pepper with a curved green stem. -->
+    <path d="M112 235C81 242 66 252 57 266" fill="none"/>
+    <path d="M60 256c-15-9-28-3-29 8-1 7 5 13 12 15-9 5-8 16 2 19 15 4 28-11 30-22 1-8-6-15-15-20Z" fill="#FFF7E8"/>
+    <path d="M172 102c-7-19-6-40 5-57 8-13 20-20 33-23 8-2 13 6 8 12-19 21-21 45-9 69Z" fill="#68A83E"/>
+    <path d="M185 78c6-18 13-30 22-39" fill="none" stroke-width="3"/>
+    <path d="M174 97c-29-23-57-14-65 4-22-6-38 8-36 29-25 15-26 40-14 60-12 24-7 44 10 59-5 29 7 50 31 58 9 28 32 43 57 40 18 20 29 36 34 49 4-18 18-30 39-44 31-2 49-21 49-47 24-13 31-35 20-58 16-24 15-51-3-67 8-29-3-48-27-53-7-23-32-35-57-26-13-12-27-14-38-4Z" fill="#E63323"/>
+    <path d="M181 117c-17-12-40-12-53 4M85 139c-9 9-12 20-9 30M71 212c0 17 7 28 18 34M109 282c6 17 17 28 32 31M237 290c11-8 17-20 15-32M263 149c10 8 14 18 11 30M166 326c9 4 17 5 26 2M214 119l16 5" fill="none" stroke-width="4" opacity=".58"/>
+    <path d="M88 184c-5 6-6 14-2 23M118 256l8 10M222 321l-9 9M267 222l-5 10" fill="none" stroke-width="4" opacity=".58"/>
+    <!-- Oversized shades with tiny cream reflections. -->
+    <path d="m78 150 84 2 14 10 13-9 83 2-5 19c-3 22-14 34-35 34-20 0-34-13-37-32l-3-9h-12l-4 9c-4 22-19 31-40 29-23-2-34-14-37-34Z" fill="#172022" stroke-width="5"/>
+    <path d="m100 161 25 1-14 26h-8ZM211 165l25 1-14 27h-9Z" fill="#FFF7E8" stroke="none" opacity=".88"/>
+    <path d="M145 227c18 10 38 10 58-2-3 26-15 39-31 36-16-2-25-15-27-34Z" fill="#FFF7E8" stroke-width="5"/>
+    <path d="M151 239c14 6 29 5 44-2" fill="none" stroke-width="3"/>
+    <!-- Raised white glove, giving an enthusiastic thumbs up. -->
+    <path d="M280 255c15-3 25-13 32-28" fill="none" stroke-width="10"/>
+    <path d="m300 229 19 10 8-14-20-10Z" fill="#FFF7E8" stroke-width="4"/>
+    <path d="M309 218c-4-6-7-14-5-22l7-20c3-8 6-15 5-23-1-10 4-14 10-10 12 7 13 26 5 39l17 3c11 2 15 11 10 18 9 6 8 16 0 20 2 10-5 15-13 14l-14-1c-8 0-15-6-22-18Z" fill="#FFF7E8" stroke-width="5"/>
+    <path d="m333 193 16 3m-17 12 20 3m-22 10 17 3" fill="none" stroke-width="3"/>
+    </g>
+<text x="350" y="463" text-anchor="middle" fill="#172022" stroke="none" class="body" font-size="11" letter-spacing="1.3">MANGO · LIME</text>
+<text x="350" y="480" text-anchor="middle" fill="#E63323" stroke="none" class="heavy" font-size="6.6" letter-spacing=".65">CAROLINA REAPER / VERY HOT</text>
+</g>
+<!-- A juicy illustrated mango and lime are nestled at the base. -->
+<g transform="rotate(-14 209 505)">
+<path d="M111 507c6-44 46-80 86-82 41-2 76 28 75 66-1 38-35 73-79 79-47 6-88-21-82-63Z" fill="#FFB52E" stroke-width="5"/>
+<path d="M130 505c13-30 44-48 70-46 25 2 41 21 36 43-5 24-29 42-59 44-30 3-55-17-47-41Z" fill="#FFD665" stroke-width="3"/>
+<path d="m149 479 48 57m-25-71 43 55m-75-18 80-19m-84 42 77-19" fill="none" stroke="#F19522" stroke-width="3"/>
+<path d="M209 429c6-20 25-28 39-25-5 22-20 29-39 25Z" fill="#68A83E" stroke-width="4"/>
+</g>
+<g transform="rotate(12 469 508)">
+<ellipse cx="479" cy="517" rx="69" ry="55" fill="#4D872E" stroke-width="5"/>
+<ellipse cx="467" cy="503" rx="69" ry="55" fill="#68A83E" stroke-width="5"/>
+<ellipse cx="467" cy="503" rx="58" ry="45" fill="#FFF7E8" stroke-width="2"/>
+<ellipse cx="467" cy="503" rx="49" ry="37" fill="#B6D865" stroke-width="2"/>
+<path d="M467 503 419 497m48 6-29-30m29 30 7-36m-7 36 40-22m-40 22 46 12m-46-12 17 34m-17-34-28 30" fill="none" stroke="#FFF7E8" stroke-width="5"/>
+<ellipse cx="467" cy="503" rx="7" ry="5" fill="#FFF7E8" stroke="none"/>
+</g>
+</g></svg>
