@@ -1,9 +1,9 @@
-import { ingredients, recipeFacts, steps } from "../data/recipe.ts";
+import { ingredients, recipeFacts, recipeMethods } from "../data/recipe.ts";
 import {
   clampStep,
   formatIngredient,
   heatAdjustment,
-  PROGRESS_KEY,
+  progressKey,
   readProgress,
   saveProgress,
 } from "../lib/recipe.ts";
@@ -24,7 +24,10 @@ try {
 } catch {
   // The page remains useful when browser privacy settings block local storage.
 }
-const progress = readProgress(storage);
+const method =
+  document.body.dataset.method === "stovetop" ? "stovetop" : "thermomix";
+const steps = recipeMethods[method].steps;
+const progress = readProgress(storage, method);
 let units: Units = "metric";
 let scale = 1;
 let opener: HTMLElement | null = null;
@@ -42,7 +45,7 @@ function toast(message: string) {
 }
 
 function persist() {
-  const saved = saveProgress(storage, progress);
+  const saved = saveProgress(storage, progress, method);
   const status = element("storage-status");
   if (status) {
     status.textContent = saved
@@ -422,7 +425,7 @@ if (shareButton) {
     try {
       await navigator.share({
         title: "REAPER SAUCE — Bold Flavor. Respect the Heat.",
-        text: "Carolina Reaper, mango & lime. A very hot homemade sauce for the Thermomix TM7.",
+        text: `Carolina Reaper, mango & lime. A very hot homemade sauce — ${recipeMethods[method].label}.`,
         url: url.href,
       });
     } catch (error) {
@@ -452,10 +455,11 @@ function renderDilution() {
 element("dilution")?.addEventListener("change", renderDilution);
 
 window.addEventListener("storage", (event) => {
-  if (!storage || (event.key !== PROGRESS_KEY && event.key !== null)) return;
+  if (!storage || (event.key !== progressKey(method) && event.key !== null))
+    return;
   // Ignore sessionStorage and any other storage area using the same key.
   if (event.storageArea && event.storageArea !== storage) return;
-  const saved = readProgress(storage);
+  const saved = readProgress(storage, method);
   progress.ingredients = saved.ingredients;
   progress.steps = saved.steps;
   progress.currentStep = saved.currentStep;

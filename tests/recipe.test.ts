@@ -1,12 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { ingredients, steps } from "../src/data/recipe.ts";
+import { ingredients, recipeMethods, steps } from "../src/data/recipe.ts";
 import {
   clampStep,
   emptyProgress,
   formatIngredient,
   heatAdjustment,
   PROGRESS_KEY,
+  progressKey,
   readProgress,
   saveProgress,
   scaleAmount,
@@ -186,4 +187,69 @@ test("every step refers only to existing ingredients and the complete recipe has
   for (const step of steps)
     for (const id of step.ingredients)
       assert.ok(ingredientIds.has(id), `${step.id}: ${id}`);
+});
+
+test("both cooking methods cover the same ingredients with appliance-appropriate instructions", () => {
+  assert.equal(recipeMethods.thermomix.steps, steps);
+  assert.equal(recipeMethods.stovetop.steps.length, 9);
+  for (const method of Object.values(recipeMethods)) {
+    assert.equal(
+      new Set(method.steps.map((step) => step.id)).size,
+      method.steps.length,
+    );
+    for (const step of method.steps) {
+      for (const id of step.ingredients)
+        assert.ok(ingredients.some((item) => item.id === id));
+    }
+    for (const item of ingredients)
+      assert.ok(
+        method.steps.some((step) => step.ingredients.includes(item.id)),
+        item.id,
+      );
+  }
+  const stoveText = JSON.stringify(recipeMethods.stovetop.steps);
+  assert.doesNotMatch(stoveText, /Thermomix|TM7|Speed \d|120°C/);
+  assert.match(stoveText, /very tender/);
+  assert.match(stoveText, /room temperature/);
+  assert.match(
+    stoveText,
+    /Never blend warm or hot sauce in a sealed personal blender cup/,
+  );
+  assert.match(
+    stoveText,
+    /150 g bell pepper, 75 g mango, 30 g vinegar, and 30 g water/,
+  );
+});
+
+test("method-specific progress preserves existing TM7 progress and keeps stovetop completion separate", () => {
+  const storage = memoryStorage();
+  const original = {
+    ingredients: ["reapers"],
+    steps: ["prepare"],
+    currentStep: 2,
+  };
+  const stove = {
+    ingredients: ["mango"],
+    steps: ["prepare", "chop"],
+    currentStep: 5,
+  };
+  saveProgress(storage, original);
+  assert.equal(progressKey("thermomix"), PROGRESS_KEY);
+  assert.notEqual(progressKey("stovetop"), PROGRESS_KEY);
+  assert.deepEqual(readProgress(storage, "stovetop"), emptyProgress());
+  assert.equal(saveProgress(storage, stove, "stovetop"), true);
+  assert.deepEqual(readProgress(storage), original);
+  assert.deepEqual(readProgress(storage, "stovetop"), stove);
+  saveProgress(storage, emptyProgress(), "stovetop");
+  assert.deepEqual(readProgress(storage), original);
+  assert.deepEqual(readProgress(storage, "stovetop"), emptyProgress());
+  storage.setItem(
+    progressKey("stovetop"),
+    JSON.stringify({ steps: ["unknown", "chop"], currentStep: 99 }),
+  );
+  assert.deepEqual(readProgress(storage, "stovetop"), {
+    ingredients: [],
+    steps: ["chop"],
+    currentStep: 8,
+  });
 });

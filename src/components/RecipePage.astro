@@ -1,0 +1,125 @@
+---
+import Icon from './Icon.astro';
+import { ingredients, recipeMethods, safetyNotes, storageNotes, dilutionIngredients, optionalUpgrade } from '../data/recipe';
+import { formatIngredient } from '../lib/recipe';
+import type { CookingMethod } from '../data/recipe';
+interface Props { method: CookingMethod }
+const { method } = Astro.props;
+const details = recipeMethods[method];
+const steps = details.steps;
+const isStovetop = method === 'stovetop';
+const methodSafetyNotes = isStovetop ? [safetyNotes[0], details.capacity, 'Stovetop times are approximate; cook until the vegetables are tender. Scaled cooking times have not been validated.', 'US kitchen measures are approximate. Original metric weights are authoritative.', safetyNotes[4]] : safetyNotes;
+import '../styles/global.css';
+const base = import.meta.env.BASE_URL;
+const asset = (path: string) => `${base}${path}`;
+const canonical = new URL(`${base}${isStovetop ? 'stovetop/' : ''}`, Astro.site).href;
+const title = isStovetop ? 'Reaper Sauce — Stovetop Carolina Reaper, Mango & Lime Hot Sauce' : 'Reaper Sauce — Carolina Reaper, Mango & Lime Hot Sauce';
+const description = isStovetop ? 'No Thermomix needed. Make Carolina Reaper, mango and lime hot sauce with a regular pot and blender. Includes step-by-step cooking mode and printable bottle labels.' : 'Sweet mango. Bright lime. Serious heat. Make Carolina Reaper hot sauce with a Thermomix TM7 or a regular pot and blender, with cooking mode and printable bottle labels.';
+const schema = {
+ '@context': 'https://schema.org', '@type': 'Recipe', name: `Carolina Reaper + Mango Hot Sauce${isStovetop ? ' (Stovetop)' : ''}`, description,
+ image: [new URL(asset('art/social-preview.png'), Astro.site).href], recipeCategory: 'Condiment', recipeCuisine: 'Homemade',
+ prepTime: `PT${details.prepMinutes}M`, cookTime: `PT${details.cookMinutes}M`, totalTime: `PT${details.prepMinutes + details.cookMinutes}M`, recipeYield: 'Approximately 1.2–1.4 liters, depending on evaporation, produce size, and straining',
+ tool: details.equipmentList.map(name => ({ '@type':'HowToTool', name })),
+ recipeIngredient: ingredients.map(item => formatIngredient(item)),
+ recipeInstructions: steps.map((step,index)=>({'@type':'HowToStep',name:step.title,text:[...step.paragraphs,...step.settings,step.note || ''].join(' '),url:`${canonical}#step-${index+1}`})),
+ keywords:`Carolina Reaper, mango, lime, hot sauce, ${details.label}`, url: canonical,
+};
+---
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fff7e8" />
+  <style is:inline set:html={`@font-face{font-family:Barlow;src:url('${asset('fonts/display.ttf')}') format('truetype');font-weight:800;font-display:swap}@font-face{font-family:DM;src:url('${asset('fonts/body.ttf')}') format('truetype');font-weight:100 1000;font-display:swap}`} />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href={asset('art/favicon.svg')} />
+  <link rel="preload" href={asset('fonts/display.ttf')} as="font" type="font/ttf" crossorigin />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="REAPER SAUCE — Bold Flavor. Respect the Heat." />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(asset('art/social-preview.png'), Astro.site).href} />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Reaper Sauce bottle with a smiling sunglasses-wearing Carolina Reaper mascot, mango, and lime" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+ </head>
+ <body data-method={method}>
+  <a href="#recipe" class="skip-link">Skip to recipe</a>
+  <div class="top-strip"><Icon name="pepper" size={15}/><span>HOMEMADE. FRIEND-SHARED. FEARLESSLY FLAVORFUL.</span><Icon name="pepper" size={15}/></div>
+  <header class="site-header wrap">
+   <a class="brand" href={base} aria-label="Reaper Sauce home"><img src={asset('art/mascot.svg')} alt="" width="49" height="52"/><span>REAPER<span class="brand-bottom">SAUCE<span class="brand-dot">✳</span></span></span></a>
+   <nav aria-label="Main navigation"><a href="#recipe">The recipe</a><a href="#heat">Respect the heat</a><a href="#bottle-it">Bottle it!</a></nav>
+   <a href="#recipe" class="button button-small header-cta">Let's cook <Icon name="arrow" size={17}/></a>
+  </header>
+  <main>
+   <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-copy">
+     <p class="eyebrow"><span class="little-star">✳</span> SMALL BATCH. BIG PERSONALITY.</p>
+     <h1 id="hero-title">REAPER<br/><span>SAUCE.</span></h1>
+     <p class="hero-tagline">Bold flavor. Respect the heat.</p>
+     <p class="hero-description">Sweet mango. Bright lime. Three Carolina Reapers.<br class="desktop-break"/> A homemade hot sauce with a sunny side<br class="desktop-break"/> and a seriously fiery finish.</p>
+     <div class="hero-actions"><a href="#recipe" class="button">Let's cook! <Icon name="arrow" size={21}/></a><button class="text-button" id="print-recipe"><Icon name="print" size={19}/> Print recipe</button></div>
+     <a class="method-hero-link" href={`${base}${isStovetop ? '' : 'stovetop/'}#recipe`}>{isStovetop ? 'Prefer the Thermomix? Use the TM7 method' : 'No Thermomix? Make it on the stovetop'} <Icon name="arrow" size={16}/></a>
+     <p class="hero-note">Made with love. And questionable amounts of capsaicin.</p>
+    </div>
+    <div class="hero-visual">
+     <div class="hero-circle"></div>
+     <span class="hero-scribble scribble-top">sweet up front.<br/><span>fire in the finish.</span><svg viewBox="0 0 100 50" aria-hidden="true"><path d="M6 5q60-7 72 31m-21-8 23 10-1-21"/></svg></span>
+     <img class="hero-art" src={asset('art/hero-art.svg')} width="650" height="620" alt="Illustrated Reaper Sauce bottle, cheerful Reaper in sunglasses, golden mango, and fresh lime" fetchpriority="high"/>
+     <div class="heat-stamp"><Icon name="flame" size={27}/><strong>VERY HOT</strong><span>YOU'VE BEEN WARNED</span></div>
+     <span class="hero-batch">THE HOMEMADE ORIGINAL <span>✳</span></span>
+    </div>
+   </section>
+   <section class="recipe-facts wrap" aria-label="Recipe at a glance">
+    <div><Icon name="clock"/><span><small>PREP TIME</small><strong>{details.prepTime}</strong></span></div>
+    <div><Icon name="flame"/><span><small>COOK TIME</small><strong>{details.cookTime}</strong></span></div>
+    <div><Icon name="bottle"/><span><small>MAKES APPROX.</small><strong>1.2–1.4 liters</strong></span></div>
+    <div><Icon name="sun"/><span><small>MADE WITH</small><strong>{details.equipment}</strong></span></div>
+   </section>
+   <div class="ribbon-clip"><div class="flavor-ribbon" aria-hidden="true"><div>CAROLINA REAPER <span>✳</span> MANGO <span>✳</span> LIME <span>✳</span> A LITTLE SWEET. A LOT OF HEAT. <span>✳</span> CAROLINA REAPER <span>✳</span> MANGO <span>✳</span> LIME <span>✳</span></div></div></div>
+   <section class="recipe-section wrap" id="recipe" aria-labelledby="recipe-title">
+    <div class="print-heading"><h1>Carolina Reaper + Mango Hot Sauce</h1><p>REAPER SAUCE · {details.label} · Very hot</p><p>Prep: {details.prepTime} · Cook: {details.cookTime} + safe cooling · Original yield: approx. 1.2–1.4 liters, depending on produce, evaporation, and straining.</p></div><div class="section-heading"><div><p class="eyebrow">THE RECIPE</p><h2 id="recipe-title">LET'S MAKE<br/><span class="red">SOME TROUBLE.</span></h2><p>Fruity, tangy, savory. Unapologetically spicy.</p></div><button class="button button-dark" id="start-cooking"><Icon name="book" size={20}/> Start cooking mode <Icon name="arrow" size={20}/></button></div>
+    <div class="method-picker">
+     <div><p class="eyebrow">CHOOSE YOUR METHOD</p><nav class="method-options" aria-label="Cooking method"><a href={`${base}#recipe`} aria-current={!isStovetop ? 'page' : undefined}><Icon name="sun" size={19}/> Thermomix TM7</a><a href={`${base}stovetop/#recipe`} aria-current={isStovetop ? 'page' : undefined}><Icon name="flame" size={19}/> Stovetop + blender</a></nav><p class="method-description">{details.intro}</p></div>
+     <details class="equipment-list"><summary>What you'll need <span>+</span></summary><ul>{details.equipmentList.map(item => <li>{item}</li>)}<li>Disposable gloves and thoroughly cleaned, food-safe bottles or jars</li></ul></details>
+    </div>
+    <noscript><p class="notice">The complete recipe and label downloads work without JavaScript. Enable JavaScript for saved checklists, scaling, cooking mode, and printing controls.</p></noscript>
+    <div class="safety-callout"><Icon name="shield" size={25}/><div><strong>A little respect goes a long way.</strong><p>{details.safety} Three Reapers make this <strong>very hot</strong>. Start with a tiny, cooled taste.</p></div></div>
+    <div class="recipe-grid">
+     <aside class="ingredients-panel" aria-labelledby="ingredients-title">
+      <div class="panel-top"><h3 id="ingredients-title">THE LINEUP</h3><button id="reset-ingredients" class="text-button"><Icon name="reset" size={15}/> Reset</button></div>
+      <div class="recipe-controls"><div><span class="control-label">UNITS</span><div class="segmented" aria-label="Ingredient units"><button data-unit="metric" aria-pressed="true">Metric</button><button data-unit="us" aria-pressed="false">US</button></div></div><div><span class="control-label">BATCH SIZE</span><div class="segmented" aria-label="Recipe batch size"><button data-scale="0.5" aria-pressed="false">½×</button><button data-scale="1" aria-pressed="true">1×</button><button data-scale="1.5" aria-pressed="false">1½×</button></div></div></div>
+      <p class="yield-text">Makes approximately <span id="scaled-yield">1.2–1.4 liters</span></p>
+      <p class="small-note" id="scale-note" hidden>The three-Reaper recipe is already extremely spicy. Scaling cannot guarantee heat levels. {details.capacity} Cooking times are not validated for scaled batches. Fractional Reapers do not predict heat.</p>
+      <div class="ingredient-list">{ingredients.map(item=><label class="ingredient"><input type="checkbox" data-ingredient={item.id}/><span class="custom-check"><Icon name="check" size={14}/></span><span data-ingredient-label={item.id}>{formatIngredient(item)}</span></label>)}</div>
+      <div class="ingredient-progress"><span id="ingredient-count" aria-live="polite">0 of 13 ready</span><Icon name="check" size={17}/></div>
+      <p class="small-note" id="storage-status">Your checklist is saved on this device.</p>
+      <details class="ingredient-extras"><summary>A little extra, just in case <span>+</span></summary><p>Optional dilution ingredients:</p><ul>{dilutionIngredients.map(item=><li>{item}</li>)}</ul></details>
+      <p class="metric-note">US measures are approximate. Metric weights are the original recipe and the most reliable choice for either method.</p>
+     </aside>
+     <div class="method"><div class="method-heading"><h3>THE METHOD</h3><span id="step-count" aria-live="polite">0 of 9 steps complete</span></div><p class="method-intro">Take your time. Enjoy the process. Keep the gloves on.</p>
+      {steps.map((step,index)=><article class="step-card" data-step-card={step.id} id={`step-${index+1}`}><div class="step-number">{String(index+1).padStart(2,'0')}</div><div class="step-content"><div class="step-title"><h4>{step.title}</h4><label class="step-check" title={`Mark ${step.title} complete`}><input type="checkbox" data-step={step.id} aria-label={`Mark step ${index+1}: ${step.title} complete`}/><span><Icon name="check" size={14}/></span></label></div>{step.paragraphs.map(p=><p>{p}</p>)}{step.settings.length>0&&<div class="settings-list">{step.settings.map(setting=><div class="machine-setting"><Icon name="sun" size={15}/><span>{setting}</span></div>)}</div>}{step.note&&<p class="step-note">{step.note}</p>}</div></article>)}
+      <div id="complete-banner" class="complete-banner" hidden><img src={asset('art/mascot.svg')} alt="Celebrating Reaper mascot" width="95" height="95"/><div><p class="eyebrow">MISSION ACCOMPLISHED</p><h3>YOU SURVIVED!</h3><p>Now bottle up that sunshine, refrigerate, and share the fire.</p><a href="#bottle-it" class="text-button">Give it a label <Icon name="arrow" size={18}/></a></div></div>
+      <div class="upgrade"><span>✳</span><div><h4>GOT A LITTLE EXTRA TIME?</h4><p>{isStovetop ? optionalUpgrade.replace('adding them to the Thermomix', 'adding them to your pot') : optionalUpgrade}</p></div></div>
+     </div>
+    </div>
+    <details class="scaling-details"><summary>Before you scale your batch <span>+</span></summary><ul>{methodSafetyNotes.map(note=><li>{note}</li>)}</ul></details>
+   </section>
+   <section id="heat" class="heat-section" aria-labelledby="heat-title"><div class="wrap heat-layout"><div class="heat-copy"><p class="eyebrow">KNOW YOUR FIRE</p><h2 id="heat-title">BIG FLAVOR.<br/><span>REAL HEAT.</span></h2><p>Three Carolina Reapers aren't shy. Mango brings sweetness and lime brings brightness, but this sauce still packs a serious punch.</p><div class="heat-scale" aria-label="Heat level: five of five peppers, very hot">{[1,2,3,4,5].map(()=> <Icon name="pepper" size={38}/>)}<strong>VERY HOT</strong></div><p class="small-note">Pepper heat varies. No made-up Scoville score. Just respect.</p></div><div class="dilution-card"><span class="mini-label">TOO MUCH OF A GOOD THING?</span><h3>TURN DOWN THE FIRE.</h3><p>Cook extra bell pepper and mango separately until tender, then blend in a little at a time.</p><label for="dilution" class="control-label">DILUTION ADDITIONS</label><select id="dilution"><option value="1">1 addition</option><option value="2">2 additions</option></select><p id="dilution-result" class="dilution-amounts">150 g bell pepper · 75 g mango · 30 g vinegar · 30 g water</p><p>Reheat and blend as needed. {isStovetop ? 'Work within the pot and blender’s capacity. Cool before blending.' : 'Stay within the bowl’s capacity.'} Cool before tasting again.</p><p class="small-note">Dilution reduces heat concentration. It can't promise a medium-spicy sauce.</p></div></div></section>
+   <section id="bottle-it" class="bottle-section wrap" aria-labelledby="bottle-title"><div class="section-heading"><div><p class="eyebrow">GOOD SAUCE DESERVES A GOOD LABEL</p><h2 id="bottle-title">BOTTLE IT!</h2><p>Made a little fire? Make it official.</p></div><span class="hand-note">for your fridge.<br/>or your brave friends. ↙</span></div><div class="label-layout"><div class="label-preview"><span class="label-caption">THE SQUEEZE BOTTLE</span><img src={asset('art/label-tall.svg')} class="label-tall" alt="Tall Reaper Sauce label with mascot and batch date field" width="250" height="400" loading="lazy"/><span class="label-size">2.5 × 4 in · 63.5 × 101.6 mm</span><a href={asset('art/label-tall.svg')} download="reaper-sauce-bottle-label.svg" class="text-button"><Icon name="download" size={17}/> Download SVG</a></div><div class="label-preview"><span class="label-caption">THE MASON JAR</span><img src={asset('art/label-round.svg')} class="label-round" alt="Round Reaper Sauce mason jar label with mascot and batch date field" width="300" height="300" loading="lazy"/><span class="label-size">3 in diameter · 76.2 mm</span><a href={asset('art/label-round.svg')} download="reaper-sauce-jar-label.svg" class="text-button"><Icon name="download" size={17}/> Download SVG</a></div><div class="label-instructions"><span class="mini-label">PRINT. CUT. STICK. SHARE.</span><h3>A LITTLE LABEL.<br/>A LOT OF ATTITUDE.</h3><p>Two matching designs for your homemade batch. Print on ordinary US Letter adhesive paper, cut along the border, and give your bottle a personality.</p><ul><li>Scalable, high-resolution SVG artwork</li><li>Writable batch-date field</li><li>Works with a color laser printer</li></ul><button class="button button-dark" id="open-labels"><Icon name="print" size={19}/> Print your labels</button><p class="small-note">Choose your dimensions before printing.<br/>Use 100% / Actual size. Disable headers and footers.</p><p class="artwork-note">Original site artwork. Ready to swap for your own stickers.</p></div></div></section>
+   <section class="storage-section wrap" aria-labelledby="storage-title"><div class="storage-icon"><Icon name="bottle" size={52}/></div><div><p class="eyebrow">A HAPPY HOME IS A COLD FRIDGE</p><h2 id="storage-title">KEEP IT COOL.</h2><div class="storage-grid">{storageNotes.map((note,i)=><p><strong>{String(i+1).padStart(2,'0')}.</strong> {note}</p>)}</div><p class="source-links">Cook with care: <a href={isStovetop ? "https://producthelp.kitchenaid.com/Countertop_Appliances/Blenders_and_Hand_Blender/Diamond_Blender/Blender_Performance/Tips_for_Best_Blending_Results" : "https://globalsupport.vorwerk.com/hc/en-us/articles/22778891118748-Thermomix-TM7-User-Manual"} target="_blank" rel="noreferrer">{isStovetop ? "Blender manufacturer guidance ↗" : "TM7 manufacturer guidance ↗"}</a> · <a href="https://nchfp.uga.edu/blog/your-favorite-salsa-recipe...is-it-safe-to-can" target="_blank" rel="noreferrer">Why tested preservation matters ↗</a></p></div></section>
+   <section class="story-section wrap"><div class="story-mascot"><img src={asset('art/mascot.svg')} alt="Our cheerful Reaper mascot giving a thumbs-up" width="180" height="180" loading="lazy"/></div><div><p class="eyebrow">A LITTLE KITCHEN EXPERIMENT</p><h2>THREE REAPERS.<br/>WHAT COULD GO WRONG?</h2><p>It started with three Carolina Reapers and a simple idea: make something worth sharing. Mango for a little sunshine. Lime for a little zing. And enough fire to keep the family talking.</p><p>No secret formula. No fancy factory. Just a homemade recipe, a few kitchen tools, and a healthy respect for the pepper.</p><div class="story-signature">From our kitchen, with a little heat. <span>♡</span></div></div></section>
+   <section class="share-section"><div class="wrap"><p class="eyebrow">GOOD THINGS ARE BETTER SHARED</p><h2>PASS THE SAUCE.</h2><p>Send the recipe to someone who likes a little adventure.</p><div><button id="copy-link" class="button button-cream"><Icon name="copy" size={19}/> Copy recipe link</button><button id="share-recipe" class="text-button" hidden><Icon name="share" size={19}/> Share recipe</button></div></div></section>
+  </main>
+  <footer class="site-footer wrap"><a class="footer-brand" href={base}>REAPER SAUCE<span>Bold Flavor. Respect the Heat.</span></a><p>A little homemade project. Made to be shared.<br/>An independent recipe. Not affiliated with Vorwerk or Thermomix.</p><a href="#hero-title" class="text-button">Back to top ↑</a></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="cooking-dialog" aria-labelledby="cooking-title"><div class="cooking-top"><span class="eyebrow">REAPER SAUCE / COOKING MODE</span><button id="close-cooking" class="icon-button" aria-label="Close cooking mode"><Icon name="close"/></button></div><div class="cooking-meta"><span id="cooking-count">Step 1 of 9</span><span><Icon name={isStovetop ? "flame" : "sun"} size={15}/> {details.label}</span></div><progress id="cooking-progress" value="1" max="9" aria-label="Current recipe step"></progress><h2 id="cooking-title" tabindex="-1">Prepare the Reapers</h2><div class="cooking-needed"><span class="control-label">FOR THIS STEP</span><ul id="cooking-ingredients"></ul></div><div id="cooking-body"></div><div id="cooking-settings"></div><label class="cooking-complete"><input id="cooking-done" type="checkbox"/> Mark this step complete</label><div class="cooking-nav"><button class="button button-outline" id="previous-step">← Previous</button><button class="button" id="next-step">Next step →</button></div><p id="wake-status" class="small-note">Keep your screen awake in your device settings while cooking.</p><p class="small-note">{details.cookingNote}</p></dialog>
+  <dialog id="label-dialog" aria-labelledby="label-dialog-title"><div class="cooking-top"><span class="eyebrow">YOUR SAUCE. YOUR STICKER.</span><button id="close-labels" class="icon-button" aria-label="Close label print settings"><Icon name="close"/></button></div><h2 id="label-dialog-title">READY TO STICK?</h2><p>Print one design per US Letter sheet, at actual size.</p><form id="label-form"><label>Label format<select id="label-format"><option value="tall">Squeeze bottle · tall</option><option value="round">Mason jar · round</option></select></label><div class="dimension-fields"><label><span id="width-caption">Width (inches)</span><input id="label-width" type="number" min="1" max="7" step="0.1" value="2.5" required/></label><label id="height-field">Height (inches)<input id="label-height" type="number" min="1" max="9" step="0.1" value="4" required/></label></div><p class="small-note">White sheet, cutting borders, no shadows. Leave the date line blank and write your preparation date after printing. Disable browser headers/footers and choose <strong>100% / Actual size</strong>.</p><button class="button button-dark" type="submit"><Icon name="print" size={19}/> Print US Letter sheet</button></form></dialog>
+  <div id="label-print-sheet" aria-hidden="true"></div>
+  <script>import '../scripts/recipe-ui'; import '../scripts/labels';</script>
+ </body>
+</html>

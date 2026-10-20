@@ -1,5 +1,5 @@
-import { ingredients, steps } from "../data/recipe.ts";
-import type { Ingredient } from "../data/recipe.ts";
+import { ingredients, recipeMethods } from "../data/recipe.ts";
+import type { CookingMethod, Ingredient } from "../data/recipe.ts";
 
 export type Units = "metric" | "us";
 export type Progress = {
@@ -13,6 +13,12 @@ export type ProgressStorage = {
 };
 
 export const PROGRESS_KEY = "reaper-sauce-progress-v1";
+
+export function progressKey(method: CookingMethod = "thermomix"): string {
+  return method === "thermomix"
+    ? PROGRESS_KEY
+    : "reaper-sauce-stovetop-progress-v1";
+}
 
 /** Scaling changes amounts only; it never validates cooking time or bowl capacity. */
 export function scaleAmount(amount: number, scale: number): number {
@@ -113,7 +119,11 @@ function knownIds(value: unknown, allowed: Set<string>): string[] {
   ];
 }
 
-function validProgress(value: unknown): Progress {
+function validProgress(
+  value: unknown,
+  method: CookingMethod = "thermomix",
+): Progress {
+  const steps = recipeMethods[method].steps;
   if (!value || typeof value !== "object" || Array.isArray(value))
     return emptyProgress();
   const data = value as Record<string, unknown>;
@@ -131,10 +141,13 @@ function validProgress(value: unknown): Progress {
 }
 
 /** Unavailable, blocked, or corrupt browser storage must never prevent cooking. */
-export function readProgress(storage?: ProgressStorage | null): Progress {
+export function readProgress(
+  storage?: ProgressStorage | null,
+  method: CookingMethod = "thermomix",
+): Progress {
   try {
-    const saved = storage?.getItem(PROGRESS_KEY);
-    return saved ? validProgress(JSON.parse(saved)) : emptyProgress();
+    const saved = storage?.getItem(progressKey(method));
+    return saved ? validProgress(JSON.parse(saved), method) : emptyProgress();
   } catch {
     return emptyProgress();
   }
@@ -144,10 +157,14 @@ export function readProgress(storage?: ProgressStorage | null): Progress {
 export function saveProgress(
   storage: ProgressStorage | null | undefined,
   progress: Progress,
+  method: CookingMethod = "thermomix",
 ): boolean {
   if (!storage) return false;
   try {
-    storage.setItem(PROGRESS_KEY, JSON.stringify(validProgress(progress)));
+    storage.setItem(
+      progressKey(method),
+      JSON.stringify(validProgress(progress, method)),
+    );
     return true;
   } catch {
     return false;

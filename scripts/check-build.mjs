@@ -200,6 +200,40 @@ for (const file of files) {
   }
 }
 
+const stovetopFile = path.join(root, "stovetop", "index.html");
+const stovetopHtml = await readFile(stovetopFile, "utf8");
+const stovetopLinks = [...stovetopHtml.matchAll(/<link\b[^>]*>/gi)].map(
+  (match) => attributes(match[0]),
+);
+check(
+  stovetopLinks.find((item) => item.rel === "canonical")?.href ===
+    new URL(base + "stovetop/", origin).href,
+  "Stovetop canonical must preserve the project path.",
+);
+const stovetopSchemaMatch = [
+  ...stovetopHtml.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi),
+].find((match) => attributes(match[1]).type === "application/ld+json");
+const stovetopRecipe = JSON.parse(stovetopSchemaMatch?.[2] || "{}");
+check(
+  stovetopRecipe.recipeIngredient?.length === 13 &&
+    stovetopRecipe.recipeInstructions?.length === 9,
+  "Stovetop metadata needs all ingredients and steps.",
+);
+check(
+  !/Thermomix|TM7|Speed \d/.test(
+    JSON.stringify(stovetopRecipe.recipeInstructions),
+  ),
+  "Stovetop structured instructions must use the pot-and-blender method.",
+);
+check(
+  /data-method="stovetop"/.test(stovetopHtml),
+  "Stovetop page must initialize the correct cooking mode.",
+);
+check(
+  stovetopHtml.includes("Cool, then blend"),
+  "Stovetop instructions must be available without JavaScript.",
+);
+
 assert.equal(
   failures.length,
   0,

@@ -242,3 +242,129 @@ export const storageNotes = [
 
 export const optionalUpgrade =
   "Char the red bell peppers on a grill or under a broiler before adding them to the Thermomix for roasted depth and complexity. Do not roast the Reapers.";
+
+export type CookingMethod = "thermomix" | "stovetop";
+
+export const stovetopSteps: RecipeStep[] = [
+  { ...steps[0] },
+  {
+    id: "chop",
+    title: "Chop and soften the aromatics",
+    ingredients: ["onion", "carrots", "garlic", "ginger", "oil"],
+    paragraphs: [
+      "Finely dice the onion and carrots. Mince the garlic and ginger. Use a large, heavy-based pot (about 4–5 liters) with enough room to stir without splashing.",
+      "Heat the olive oil over medium-low heat. Add onion and carrots and cook for about 6–8 minutes, stirring often, until beginning to soften. Add garlic and ginger and cook for 1–2 minutes more, without browning the garlic.",
+    ],
+    settings: ["Medium-low heat / about 8–10 min / stir often"],
+  },
+  {
+    id: "bell-peppers",
+    title: "Soften the bell peppers",
+    ingredients: ["bell-peppers", "water"],
+    paragraphs: [
+      "Dice the deseeded red bell peppers and add them to the pot. Cook over medium-low heat for about 8–10 minutes, stirring regularly, until beginning to soften.",
+      "If the vegetables start to stick, add a small splash of the measured water. Reserve the rest for the next step.",
+    ],
+    settings: ["Medium-low heat / about 8–10 min / stir regularly"],
+  },
+  {
+    id: "reapers",
+    title: "Add Reapers and simmer",
+    ingredients: ["reapers", "vinegar", "water", "salt"],
+    paragraphs: [
+      "With gloves on, finely chop the prepared Reapers. Carefully add them with the vinegar, remaining measured water, and salt. Do not fry or roast the Reapers.",
+      "Bring to a gentle simmer, then reduce the heat. Simmer for about 20–25 minutes, stirring occasionally, until the carrots and peppers are very tender. Keep the kitchen well ventilated, avoid leaning over the steam, and use a splatter screen if needed.",
+    ],
+    settings: ["Gentle simmer / about 20–25 min / until very tender"],
+  },
+  {
+    id: "mango",
+    title: "Mango and honey",
+    ingredients: ["mango", "honey"],
+    paragraphs: [
+      "Dice the mango flesh and add it with the honey. Stir and gently simmer for about 8–10 minutes, until the mango is soft and the flavors have come together.",
+      "Stir frequently to prevent sticking. Add a little water if the sauce becomes too thick to stir; evaporation and final yield will vary with your pot and heat.",
+    ],
+    settings: ["Gentle simmer / about 8–10 min / stir frequently"],
+  },
+  {
+    id: "blend",
+    title: "Cool, then blend",
+    ingredients: [],
+    paragraphs: [
+      "Remove the pot from the heat and let the sauce cool before blending. With an immersion blender, follow its temperature and container limits, keep the blade guard submerged, and start at low speed to avoid splashes. Blend until smooth.",
+      "For a countertop blender, allow the mixture to cool to room temperature first. Blend in small batches below the manufacturer’s fill limit and follow its lid and venting instructions. Never blend warm or hot sauce in a sealed personal blender cup.",
+    ],
+    settings: ["Off the heat / cool first / blend in safe batches"],
+    note: "Your blender’s instructions take priority. Keep gloves on and avoid pepper-laden splashes. Do not leave the sauce unrefrigerated for extended periods while cooling.",
+  },
+  { ...steps[6] },
+  {
+    id: "finish",
+    title: "Finish with lime",
+    ingredients: ["lime"],
+    paragraphs: [
+      "Stir the fresh lime juice thoroughly into the smooth sauce. If blending in batches, combine all the sauce in a clean container before stirring in the lime.",
+      "Taste a tiny amount only after cooling it.",
+    ],
+    settings: ["Stir thoroughly / taste only after cooling"],
+  },
+  {
+    id: "adjust",
+    title: "Adjust heat",
+    ingredients: [],
+    paragraphs: [
+      "If too hot, separately cook additional bell pepper and mango until tender, then blend into the sauce in increments.",
+      "For each adjustment, consider approximately 150 g bell pepper, 75 g mango, 30 g vinegar, and 30 g water.",
+      "Return the sauce to the pot and gently reheat as needed, stirring. Cool before blending again, work within the blender’s capacity, and taste again only after cooling.",
+    ],
+    settings: [],
+    note: "Dilution reduces the concentration of heat but cannot guarantee a medium-spicy sauce.",
+  },
+];
+
+export const recipeMethods = {
+  thermomix: {
+    label: "Thermomix TM7",
+    equipment: "Thermomix TM7",
+    equipmentList: ["Thermomix TM7"],
+    prepTime: "15–20 min",
+    cookTime: "45–50 min",
+    prepMinutes: 20,
+    cookMinutes: 50,
+    steps,
+    intro:
+      "The original TM7 method, with chopping, cooking, and blending settings at every stage.",
+    safety:
+      "Wear gloves, keep your kitchen ventilated, and follow the TM7’s hot-liquid and steam guidance. Stay below the bowl maximum; split into batches if needed.",
+    capacity:
+      "Larger amounts may exceed the TM7’s safe capacity and require multiple batches.",
+    cookingNote:
+      "Recipe guide only. Always operate your TM7 yourself and follow its manual.",
+  },
+  stovetop: {
+    label: "Stovetop + blender",
+    equipment: "Pot + blender",
+    equipmentList: [
+      "Large heavy-based pot (about 4–5 liters)",
+      "Spoon or spatula",
+      "Knife and chopping board",
+      "Kitchen scale",
+      "Immersion blender or countertop blender",
+      "Fine-mesh sieve (optional)",
+    ],
+    prepTime: "20–25 min",
+    cookTime: "45–55 min",
+    prepMinutes: 25,
+    cookMinutes: 55,
+    steps: stovetopSteps,
+    intro:
+      "No Thermomix needed. Use a large pot, a spoon, and an immersion or countertop blender. Stovetop timings are estimates: cook until the vegetables are tender.",
+    safety:
+      "Wear gloves and ventilate well. Keep clear of pepper-laden steam. Cool before blending, follow your blender’s instructions, and work in small batches to avoid splashes.",
+    capacity:
+      "Larger amounts may need a larger pot and several blender batches. Leave room to stir safely and follow your blender’s fill limits.",
+    cookingNote:
+      "Recipe guide only. Use vegetable tenderness as your guide and follow your blender’s temperature and fill limits.",
+  },
+} as const;
